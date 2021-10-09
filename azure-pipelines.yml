@@ -7,15 +7,20 @@ trigger:
 - master
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: Linux (ubuntu 18.04)
 
-steps:
-- task: NodeTool@0
+- task: AzurePowerShell@5
   inputs:
-    versionSpec: '10.x'
-  displayName: 'Install Node.js'
-
-- script: |
-    npm install
-    npm run build
-  displayName: 'npm install and build'
+    ScriptType: 'InlineScript'
+    Inline: |
+      # Id of the subscription
+      $subscriptionId = "d94adc9b-f935-4162-8895-859a40cba7ac"
+      
+      # Name of the virtual machine 
+      $vMToStart = "luisVm"
+      
+      # The action on the virtual machine (Start or Stop)
+      $vmAction = "Stop"
+      
+      # Remove the virtual machine
+      Remove-AzVM -Name luisVm -ResourceGroup LB
