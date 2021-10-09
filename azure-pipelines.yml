@@ -9,8 +9,19 @@ trigger:
 pool:
   vmImage: Linux (ubuntu 18.04)
 
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '10.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    npm install
+    npm run build
+  displayName: 'npm install and build'
 - task: AzurePowerShell@5
   inputs:
+    azureSubscription: 'Azure subscription 1(d94adc9b-f935-4162-8895-859a40cba7ac)'
     ScriptType: 'InlineScript'
     Inline: |
       # Id of the subscription
